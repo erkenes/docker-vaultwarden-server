@@ -1,0 +1,6 @@
+/.idea/*
+/Data/Vaultwarden/*
+/Data/Vaultwarden-Backup/*
+
+!/Data/Vaultwarden/.gitkeep
+!/Data/Vaultwarden-Backup/.gitkeep
