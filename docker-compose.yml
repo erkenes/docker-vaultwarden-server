@@ -3,7 +3,6 @@ version: '3.5'
 services:
   vaultwarden:
     image: vaultwarden/server:latest #swap tag to raspberry to run on a raspberry pi
-    container_name: vaultwarden
     expose:
       - "80"
       - "3012"
@@ -19,7 +18,6 @@ services:
  
   nginx:
     build: './Docker/nginx'
-    container_name: nginx
     links:
       - "vaultwarden"
       - "vw_backup"
@@ -34,7 +32,6 @@ services:
 
   vw_backup:
     image: bruceforce/bw_backup:latest #swap tag to rpi3 to run on a raspberry pi
-    container_name: vw_backup
     restart: on-failure
     depends_on:
       - vaultwarden
