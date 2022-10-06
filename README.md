@@ -1,6 +1,7 @@
-# vaultwarden-server
+# Vaultwarden with Traefik
 
-This repository helps to host your own [vaultwarden](https://github.com/dani-garcia/vaultwarden) instance on your server or a raspberry-pi.
+This repository helps to host your own [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance on your
+server or a raspberry-pi.
 
 ## Usage
 
@@ -9,11 +10,110 @@ Edit your settings in the `.env` file.
 Start the containers with
 
 ```shell
-docker-compose up -d --build nginx
+docker-compose up -d
 ```
 
-:warning: You have to install a custom [nginx-proxy](https://github.com/erkenes/nginx-proxy) as well. 
+:warning: You have to install [Traefik](https://github.com/erkenes/docker-traefik) as well. 
 
 ## Settings
 
-In the docker-compose.yml file the admin-token is disabled. If this setting is disabled you are not able to open the admin page (`yourhost.local/admin`).
+In the docker-compose.yml file the admin-token is disabled. If this setting is disabled you are not able to open the
+admin page (`yourhost.local/admin`).
+
+## Configuration for environment variables
+
+### SIGNUPS_ALLOWED
+
+By default, anyone who can access your instance can register for a new account. To disable this, set the
+`SIGNUPS_ALLOWED` env variable to false.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Disable-registration-of-new-users)
+
+### SIGNUPS_DOMAINS_WHITELIST
+
+You can restrict registration to email addresses from certain domains by setting `SIGNUPS_DOMAINS_WHITELIST` accordingly.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Disable-registration-of-new-users#restricting-registrations-to-certain-email-domains)
+
+### SIGNUPS_VERIFY
+
+Require email verification to finish the registration.
+
+### INVITATIONS_ALLOWED
+
+Even when registration is disabled (`SIGNUPS_ALLOWED`), organization administrators or owners can invite users to join
+organization.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Disable-invitations)
+
+### ADMIN_TOKEN
+
+Activated the admin page. This page allows server administrators to view all the registered users and to delete them. It
+also shows inviting
+new users, even when registration is disabled.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
+
+### DISABLE_ADMIN_TOKEN
+
+If you have another method to authenticate the admin page then you can set the `DISABLE_ADMIN_TOKEN` variable to true.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Disable-admin-token)
+
+### WEBSOCKET_ENABLED
+
+Informs the browser and desktop Bitwarden clients that some event of interest has occurred, such as when an entry in the
+password database has been modified or deleted.
+
+This setting is not applicable to mobile Bitwarden clients (Android/iOS) because these use the native push notification
+service instead.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-WebSocket-notifications)
+
+### DOMAIN
+
+The domain of your vaultwarden instance (should be the same as `VIRTUAL_HOST`).
+
+This is required for U2F and FIDO2 WebAuthn authentication.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-U2F-%28and-FIDO2-WebAuthn%29-authentication)
+
+### YubiKey OTP Authentication
+
+You need a `YUBICO_CLIENT_ID` and `YUBICO_SECRET_KEY` to allow authentication with a Yubikey.
+
+If `YUBICO_SERVER` is not set the default YubiCloud servers are used.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-Yubikey-OTP-authentication)
+
+### SMTP Configuration
+
+- `SMTP_HOST`: The host server of the mail server
+- `SMTP_FROM`: the mail address which should be used for sending mails
+- `SMTP_PORT`: the port of the smtp server
+- `SMTP_SECURITY`: the protocol that should be used (default: starttls, options: force_tls, off, starttls)
+- `SMTP_USERNAME`: the username of the smtp user
+- `SMTP_PASSWORD`: the password of the smtp user
+
+This requires to set the `DOMAIN` variable.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration)
+
+### SHOW_PASSWORD_HINT
+
+Usually, password hints are sent by email. But as vaultwarden is made with small or personal deployment in mind,
+hints are also available from the password hint page, so you don't have to configure an email service.
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Password-hint-display)
+
+### Logging
+
+- `LOG_LEVEL`: options are: "trace", "debug", "info", "warn", "error" or "off". NOTE: Using the log level "warn" or "error" still allows Fail2Ban to work properly.
+- `USE_SYSLOG`
+- `EXTENDED_LOGGING`
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Logging)
+
+### Syncing users from LDAP 
+
+[More information](https://github.com/dani-garcia/vaultwarden/wiki/Syncing-users-from-LDAP)

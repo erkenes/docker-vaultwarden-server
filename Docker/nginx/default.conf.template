@@ -1,9 +1,20 @@
 server {
-    listen ${NGINX_PORT};
+    listen 80;
     server_name localhost;
 
     client_body_temp_path /tmp/nginx;
     client_max_body_size 128M;
+
+    ssl_protocols TLSv1.3;
+    ssl_reject_handshake on;
+    ssl_prefer_server_ciphers   on;
+    ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA HIGH !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
+
+    # the header prevents clickjacking
+    add_header X-Frame-Options "SAMEORIGIN";
+
+    # block Cross-Site scripting
+    add_header X-XSS-Protection "1; mode=block";
 
     location / {
         proxy_pass http://vaultwarden;

@@ -1,34 +1,60 @@
-version: '3.5'
+version: '3.9'
 
 services:
   vaultwarden:
-    image: vaultwarden/server:latest #swap tag to raspberry to run on a raspberry pi
-    expose:
-      - "80"
-      - "3012"
+    image: vaultwarden/server:1.25.2-alpine #swap tag to raspberry to run on a raspberry pi
     volumes:
-      - ${ROOT_PATH}/Data/Vaultwarden:/data
+      - './Data/Vaultwarden:/data'
     restart: on-failure
     environment:
-      WEBSOCKET_ENABLED: ${WEBSOCKET_ENABLED}
-      SIGNUPS_ALLOWED: ${SIGNUPS_ALLOWED}
-#      ADMIN_TOKEN: ${ADMIN_TOKEN}
-    networks:
-      - "vaultwarden"
- 
+      WEBSOCKET_ENABLED: '${WEBSOCKET_ENABLED}'
+      SIGNUPS_ALLOWED: '${SIGNUPS_ALLOWED}'
+#      SIGNUPS_DOMAINS_WHITELIST: '${SIGNUPS_DOMAINS_WHITELIST}'
+      SIGNUPS_VERIFY: '${SIGNUPS_VERIFY}'
+      INVITATIONS_ALLOWED: '${INVITATIONS_ALLOWED}'
+      SHOW_PASSWORD_HINT: '${SHOW_PASSWORD_HINT}'
+#      ADMIN_TOKEN: '${ADMIN_TOKEN}'
+#      DISABLE_ADMIN_TOKEN: '${DISABLE_ADMIN_TOKEN}'
+
+      # Mail Server
+#      SMTP_HOST: '${SMTP_HOST}'
+#      SMTP_FROM: '${SMTP_FROM}'
+#      SMTP_PORT: '${SMTP_PORT}'
+#      SMTP_SECURITY: '${SMTP_SECURITY}'
+#      SMTP_USERNAME: '${SMTP_USERNAME}'
+#      SMTP_PASSWORD: '${SMTP_PASSWORD}'
+
+      # Logging
+      LOG_FILE: '/data/vaultwarden.log'
+      LOG_LEVEL: '${LOG_LEVEL}'
+#      USE_SYSLOG: '${USE_SYSLOG}'
+#      EXTENDED_LOGGING: '${EXTENDED_LOGGING}'
+
+      # YubiKey authentication
+#      YUBICO_CLIENT_ID: '${YUBICO_CLIENT_ID}'
+#      YUBICO_SECRET_KEY: '${YUBICO_SECRET_KEY}'
+#      YUBICO_SERVER: '${YUBICO_SERVER}'
+
   nginx:
     build: './Docker/nginx'
     links:
-      - "vaultwarden"
-      - "vw_backup"
+      - vaultwarden
+      - vw_backup
     environment:
-      NGINX_PORT: "${NGINX_PORT}"
-      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      VIRTUAL_HOST: '${VIRTUAL_HOST}'
     command: /bin/sh -c "/run_nginx.sh"
     restart: on-failure
     networks:
-      - "vaultwarden"
-      - "nginx-proxy"
+      default:
+      traefik-proxy:
+        ipv4_address: 192.169.10.247
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.${PROJECT_IDENTIFIER}.tls=true'
+      - 'traefik.http.routers.${PROJECT_IDENTIFIER}.entrypoints=https'
+      - 'traefik.http.routers.${PROJECT_IDENTIFIER}.rule=Host(`${VIRTUAL_HOST}`)'
+      - 'traefik.http.routers.${PROJECT_IDENTIFIER}.service=${PROJECT_IDENTIFIER}'
+      - 'traefik.http.services.${PROJECT_IDENTIFIER}.loadbalancer.server.port=80'
 
   vw_backup:
     image: bruceforce/bw_backup:latest #swap tag to rpi3 to run on a raspberry pi
@@ -36,10 +62,10 @@ services:
     depends_on:
       - vaultwarden
     volumes:
-      - ${ROOT_PATH}/Data/Vaultwarden:/data
-      - ${ROOT_PATH}/Data/Vaultwarden-Backup:/backup
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
+      - './Data/Vaultwarden:/data'
+      - './Data/Vaultwarden-Backup:/backup'
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
     environment:
       - DB_FILE=/data/db.sqlite3
       - BACKUP_FILE=/backup/backup.sqlite3
@@ -50,8 +76,8 @@ services:
       - GID=0
 
 networks:
-  nginx-proxy:
-    external: true
-    name: "nginx-proxy"
-  vaultwarden:
+  default:
+    driver: bridge
+  traefik-proxy:
+    name: traefik-proxy
     driver: bridge
