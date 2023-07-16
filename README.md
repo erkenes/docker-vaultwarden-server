@@ -54,6 +54,8 @@ new users, even when registration is disabled.
 
 [More information](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
 
+[Secure the ADMIN_TOKEN](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token)
+
 ### DISABLE_ADMIN_TOKEN
 
 If you have another method to authenticate the admin page then you can set the `DISABLE_ADMIN_TOKEN` variable to true.
