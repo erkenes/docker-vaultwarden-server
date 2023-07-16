@@ -39,6 +39,10 @@ You can restrict registration to email addresses from certain domains by setting
 
 Require email verification to finish the registration.
 
+### REQUIRE_DEVICE_EMAIL
+
+Require new device emails. When a user logs in an email is required to be sent.
+
 ### INVITATIONS_ALLOWED
 
 Even when registration is disabled (`SIGNUPS_ALLOWED`), organization administrators or owners can invite users to join
@@ -82,10 +86,12 @@ If `YUBICO_SERVER` is not set the default YubiCloud servers are used.
 
 - `SMTP_HOST`: The host server of the mail server
 - `SMTP_FROM`: the mail address which should be used for sending mails
+- `SMTP_FROM_NAME`: the name which should be used for sending mails
 - `SMTP_PORT`: the port of the smtp server
 - `SMTP_SECURITY`: the protocol that should be used (default: starttls, options: force_tls, off, starttls)
 - `SMTP_USERNAME`: the username of the smtp user
 - `SMTP_PASSWORD`: the password of the smtp user
+- `SMTP_EMBED_IMAGES`: embed images as email attachments
 
 This requires to set the `DOMAIN` variable.
 
@@ -119,3 +125,11 @@ PUSH_ENABLED=true
 PUSH_INSTALLATION_ID=CHANGEME
 PUSH_INSTALLATION_KEY=CHANGEME
 ```
+
+### SENDS_ALLOWED
+
+Controls whether users are allowed to create Bitwarden Sends.
+
+### EMERGENCY_ACCESS_ALLOWED
+
+Controls whether users can enable emergency access to their accounts.
