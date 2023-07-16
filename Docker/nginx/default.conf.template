@@ -25,7 +25,7 @@ server {
     }
 
     location /notifications/hub {
-        proxy_pass http://vaultwarden:3012;
+        proxy_pass http://vaultwarden:80;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }

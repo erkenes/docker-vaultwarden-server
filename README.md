@@ -62,16 +62,6 @@ If you have another method to authenticate the admin page then you can set the `
 
 [More information](https://github.com/dani-garcia/vaultwarden/wiki/Disable-admin-token)
 
-### WEBSOCKET_ENABLED
-
-Informs the browser and desktop Bitwarden clients that some event of interest has occurred, such as when an entry in the
-password database has been modified or deleted.
-
-This setting is not applicable to mobile Bitwarden clients (Android/iOS) because these use the native push notification
-service instead.
-
-[More information](https://github.com/dani-garcia/vaultwarden/wiki/Enabling-WebSocket-notifications)
-
 ### DOMAIN
 
 The domain of your vaultwarden instance (should be the same as `VIRTUAL_HOST`).
@@ -119,3 +109,13 @@ hints are also available from the password hint page, so you don't have to confi
 ### Syncing users from LDAP 
 
 [More information](https://github.com/dani-garcia/vaultwarden/wiki/Syncing-users-from-LDAP)
+
+### Push Notifications
+
+To enable the push notifications you have to get a [Hosting Installation id and Key from here](https://bitwarden.com/host/).
+
+```text
+PUSH_ENABLED=true
+PUSH_INSTALLATION_ID=CHANGEME
+PUSH_INSTALLATION_KEY=CHANGEME
+```

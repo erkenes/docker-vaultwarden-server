@@ -2,12 +2,11 @@ version: '3.9'
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.28.1-alpine
+    image: vaultwarden/server:1.29.0-alpine
     volumes:
       - './Data/Vaultwarden:/data'
     restart: always
     environment:
-      WEBSOCKET_ENABLED: '${WEBSOCKET_ENABLED}'
       SIGNUPS_ALLOWED: '${SIGNUPS_ALLOWED}'
 #      SIGNUPS_DOMAINS_WHITELIST: '${SIGNUPS_DOMAINS_WHITELIST}'
       SIGNUPS_VERIFY: '${SIGNUPS_VERIFY}'
@@ -39,6 +38,11 @@ services:
 #      YUBICO_CLIENT_ID: '${YUBICO_CLIENT_ID}'
 #      YUBICO_SECRET_KEY: '${YUBICO_SECRET_KEY}'
 #      YUBICO_SERVER: '${YUBICO_SERVER}'
+
+      # Push Notifications
+      PUSH_ENABLED: '${PUSH_ENABLED}'
+      PUSH_INSTALLATION_ID: '${PUSH_INSTALLATION_ID}'
+      PUSH_INSTALLATION_KEY: '${PUSH_INSTALLATION_KEY}'
 
   nginx:
     build: './Docker/nginx'
