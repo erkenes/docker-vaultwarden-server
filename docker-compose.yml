@@ -2,10 +2,10 @@ version: '3.9'
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.25.2-alpine #swap tag to raspberry to run on a raspberry pi
+    image: vaultwarden/server:1.27.0-alpine
     volumes:
       - './Data/Vaultwarden:/data'
-    restart: on-failure
+    restart: always
     environment:
       WEBSOCKET_ENABLED: '${WEBSOCKET_ENABLED}'
       SIGNUPS_ALLOWED: '${SIGNUPS_ALLOWED}'
@@ -15,6 +15,11 @@ services:
       SHOW_PASSWORD_HINT: '${SHOW_PASSWORD_HINT}'
 #      ADMIN_TOKEN: '${ADMIN_TOKEN}'
 #      DISABLE_ADMIN_TOKEN: '${DISABLE_ADMIN_TOKEN}'
+
+      # ORGANIZATIONS
+      ORG_EVENTS_ENABLED: '${ORG_EVENTS_ENABLED}'
+      ORG_GROUPS_ENABLED: '${ORG_GROUPS_ENABLED}'
+#      EVENT_CLEANUP_SCHEDULE: '${EVENT_CLEANUP_SCHEDULE}'
 
       # Mail Server
 #      SMTP_HOST: '${SMTP_HOST}'
@@ -45,9 +50,8 @@ services:
     command: /bin/sh -c "/run_nginx.sh"
     restart: on-failure
     networks:
-      default:
-      traefik-proxy:
-        ipv4_address: 192.169.10.247
+      - default
+      - traefik-proxy
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.${PROJECT_IDENTIFIER}.tls=true'
@@ -81,3 +85,4 @@ networks:
   traefik-proxy:
     name: traefik-proxy
     driver: bridge
+    external: true
