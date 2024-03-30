@@ -4,7 +4,7 @@ services:
   vaultwarden:
     image: vaultwarden/server:1.30.5-alpine
     volumes:
-      - './Data/Vaultwarden:/data'
+      - '${ROOT_PATH}/Data/Vaultwarden:/data'
     restart: always
     environment:
       DOMAIN: '${DOMAIN}'
@@ -79,8 +79,8 @@ services:
     depends_on:
       - vaultwarden
     volumes:
-      - './Data/Vaultwarden:/data'
-      - './Data/Vaultwarden-Backup:/backup'
+      - '${ROOT_PATH}/Data/Vaultwarden:/data'
+      - '${ROOT_PATH}/Data/Vaultwarden-Backup:/backup'
       - '/etc/timezone:/etc/timezone:ro'
       - '/etc/localtime:/etc/localtime:ro'
     environment:
