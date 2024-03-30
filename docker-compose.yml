@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.29.0-alpine
+    image: vaultwarden/server:1.30.5-alpine
     volumes:
       - './Data/Vaultwarden:/data'
     restart: always
@@ -14,6 +14,7 @@ services:
       REQUIRE_DEVICE_EMAIL: '${REQUIRE_DEVICE_EMAIL}'
       INVITATIONS_ALLOWED: '${INVITATIONS_ALLOWED}'
       SHOW_PASSWORD_HINT: '${SHOW_PASSWORD_HINT}'
+      EMAIL_CHANGE_ALLOWED: '${EMAIL_CHANGE_ALLOWED}'
 #      ADMIN_TOKEN: '${ADMIN_TOKEN}'
 #      DISABLE_ADMIN_TOKEN: '${DISABLE_ADMIN_TOKEN}'
       SENDS_ALLOWED: '${SENDS_ALLOWED}'
@@ -49,6 +50,8 @@ services:
       PUSH_ENABLED: '${PUSH_ENABLED}'
       PUSH_INSTALLATION_ID: '${PUSH_INSTALLATION_ID}'
       PUSH_INSTALLATION_KEY: '${PUSH_INSTALLATION_KEY}'
+      PUSH_RELAY_URI: '${PUSH_RELAY_URI}'
+      PUSH_IDENTITY_URI: '${PUSH_IDENTITY_URI}'
 
   nginx:
     build: './Docker/nginx'

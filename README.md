@@ -104,6 +104,11 @@ hints are also available from the password hint page, so you don't have to confi
 
 [More information](https://github.com/dani-garcia/vaultwarden/wiki/Password-hint-display)
 
+### EMAIL_CHANGE_ALLOWED
+
+Controls whether users can change their email. This setting applies globally to all users.
+
+
 ### Logging
 
 - `LOG_LEVEL`: options are: "trace", "debug", "info", "warn", "error" or "off". NOTE: Using the log level "warn" or "error" still allows Fail2Ban to work properly.
@@ -124,6 +129,20 @@ To enable the push notifications you have to get a [Hosting Installation id and 
 PUSH_ENABLED=true
 PUSH_INSTALLATION_ID=CHANGEME
 PUSH_INSTALLATION_KEY=CHANGEME
+```
+
+To use "European Data" Region set these variables (default):
+
+```text
+PUSH_RELAY_URI=https://push.bitwarden.eu
+PUSH_IDENTITY_URI=https://identity.bitwarden.eu
+```
+
+if you want to use the "US Data" region use these instead:
+
+```text
+PUSH_RELAY_URI=https://push.bitwarden.com
+PUSH_IDENTITY_URI=https://identity.bitwarden.com
 ```
 
 ### SENDS_ALLOWED
