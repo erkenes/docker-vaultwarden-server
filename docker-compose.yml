@@ -52,16 +52,6 @@ services:
       PUSH_INSTALLATION_KEY: '${PUSH_INSTALLATION_KEY}'
       PUSH_RELAY_URI: '${PUSH_RELAY_URI}'
       PUSH_IDENTITY_URI: '${PUSH_IDENTITY_URI}'
-
-  nginx:
-    build: './Docker/nginx'
-    links:
-      - vaultwarden
-      - vw_backup
-    environment:
-      VIRTUAL_HOST: '${VIRTUAL_HOST}'
-    command: /bin/sh -c "/run_nginx.sh"
-    restart: on-failure
     networks:
       - default
       - traefik-proxy
