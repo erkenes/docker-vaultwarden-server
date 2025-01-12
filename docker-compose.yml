@@ -1,6 +1,6 @@
 services:
   vaultwarden:
-    image: vaultwarden/server:1.32.0-alpine
+    image: vaultwarden/server:1.32.7-alpine
     volumes:
       - '${ROOT_PATH}/Data/Vaultwarden:/data'
     restart: always
