@@ -54,7 +54,7 @@ services:
       PUSH_IDENTITY_URI: '${PUSH_IDENTITY_URI}'
     networks:
       - default
-      - traefik
+      - traefik-proxy
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.${PROJECT_IDENTIFIER}.tls=true'
@@ -85,7 +85,7 @@ services:
 networks:
   default:
     driver: bridge
-  traefik:
+  traefik-proxy:
     name: ${DOCKER_NETWORK_NAME}
     driver: bridge
     external: true

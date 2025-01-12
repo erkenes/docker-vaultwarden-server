@@ -3,9 +3,33 @@
 This repository helps to host your own [Vaultwarden](https://github.com/dani-garcia/vaultwarden) instance on your
 server or a raspberry-pi.
 
-## Usage
 
-Edit your settings in the `.env` file.
+## Prerequisites
+
+Before you begin, ensure you have the following prerequisites:
+
+- [Docker](https://www.docker.com/) installed and configured on your server.
+- [Docker Compose](https://docs.docker.com/compose/install/) installed.
+- [Traefik-Proxy](https://github.com/erkenes/docker-traefik) installed.
+- A registered domain name.
+
+
+## Getting Started
+
+Copy this repository to your server.
+```shell
+git clone https://github.com/erkenes/docker-vaultwarden-server.git /docker/vaultwarden
+```
+
+Navigate to the repository directory:
+```shell
+cd /docker/vaultwarden
+```
+
+Copy the `.env` file.
+```shell
+cp .env.example .env
+```
 
 Start the containers with
 

@@ -1,6 +1,7 @@
 /.idea/*
 /Data/Vaultwarden/*
 /Data/Vaultwarden-Backup/*
+.env
 
 !/Data/Vaultwarden/.gitkeep
 !/Data/Vaultwarden-Backup/.gitkeep
